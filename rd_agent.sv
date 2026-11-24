@@ -1,0 +1,24 @@
+class rd_agent extends uvm_agent;
+rd_driver r_drv;
+rd_sequencer r_sqr;
+rd_monitor r_mon;
+rd_coverage r_cov;
+`uvm_component_utils(rd_agent)
+`NEW_COMP
+
+function void build_phase(uvm_phase phase);
+super.build_phase(phase);
+r_drv = rd_driver::type_id::create("r_drv",this);
+r_sqr = rd_sequencer::type_id::create("r_sqr",this);
+r_mon = rd_monitor::type_id::create("r_mon",this);
+r_cov = rd_coverage::type_id::create("r_cov",this);
+endfunction
+
+function void connect_phase(uvm_phase phase);
+super.connect_phase(phase);
+r_drv.seq_item_port.connect(r_sqr.seq_item_export);
+r_mon.ap_port.connect(r_cov.analysis_export);
+
+endfunction
+
+endclass

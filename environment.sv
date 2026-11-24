@@ -1,0 +1,21 @@
+class environment extends uvm_env;
+wr_agent w_agnt;
+rd_agent r_agnt;
+scoreboard scbd;
+`uvm_component_utils(environment)
+`NEW_COMP
+
+function void build_phase(uvm_phase phase);
+super.build_phase(phase);
+w_agnt = wr_agent::type_id::create("w_agnt",this);
+r_agnt = rd_agent::type_id::create("r_agnt",this);
+scbd = scoreboard::type_id::create("scbd",this);
+endfunction
+
+function void connect_phase(uvm_phase phase);
+super.connect_phase(phase);
+w_agnt.w_mon.ap_port.connect(scbd.wr_imp);
+r_agnt.r_mon.ap_port.connect(scbd.rd_imp);
+endfunction
+
+endclass

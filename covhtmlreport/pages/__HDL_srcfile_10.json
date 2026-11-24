@@ -1,0 +1,27 @@
+var g_sourceLines = [
+'class wr_agent extends uvm_agent;',
+'wr_driver w_drv;',
+'wr_sequencer w_sqr;',
+'wr_monitor w_mon;',
+'wr_coverage w_cov;',
+'`uvm_component_utils(wr_agent)',
+'`NEW_COMP',
+'',
+'function void build_phase(uvm_phase phase);',
+'super.build_phase(phase);',
+'w_drv = wr_driver::type_id::create("w_drv",this);',
+'w_sqr = wr_sequencer::type_id::create("w_sqr",this);',
+'w_mon = wr_monitor::type_id::create("w_mon",this);',
+'w_cov = wr_coverage::type_id::create("w_cov",this);',
+'endfunction',
+'',
+'function void connect_phase(uvm_phase phase);',
+'super.connect_phase(phase);',
+'w_drv.seq_item_port.connect(w_sqr.seq_item_export);',
+'w_mon.ap_port.connect(w_cov.analysis_export);',
+'endfunction',
+'',
+'endclass',
+''
+];
+countinueBuildStmtTable(g_sourceLines);

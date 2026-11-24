@@ -1,0 +1,30 @@
+class rd_monitor extends uvm_monitor;
+uvm_analysis_port#(rd_tx) ap_port;
+virtual intf vif;
+rd_tx tx;
+`uvm_component_utils(rd_monitor)
+`NEW_COMP
+
+function void build_phase(uvm_phase phase);
+super.build_phase(phase);
+ap_port = new("ap_port",this);
+uvm_config_db#(virtual intf) :: get(this,"","vif",vif);
+endfunction
+
+task run_phase(uvm_phase phase);
+forever begin
+    @(vif.r_mon_cb);
+    if(vif.r_mon_cb.rd_en_i==1) begin
+    tx = new();
+    tx.rd_en_i = vif.r_mon_cb.rd_en_i;
+    @(vif.r_mon_cb);
+    tx.rdata_o = vif.r_mon_cb.rdata_o;
+    tx.empty_o = vif.r_mon_cb.empty_o;
+    tx.underflow_o = vif.r_mon_cb.underflow_o;
+    `uvm_info("RD_MON",$sformatf("Observed item:\n%s", tx.sprint()),UVM_LOW);
+ap_port.write(tx); 
+end
+end
+endtask
+
+endclass

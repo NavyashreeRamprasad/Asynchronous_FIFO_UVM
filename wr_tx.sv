@@ -1,0 +1,20 @@
+class wr_tx extends uvm_sequence_item;   
+rand		bit                  wr_en_i;
+rand	  bit [`DATA_WIDTH-1:0] wdata_i;
+				bit                  full_o;
+				bit                  overflow_o;
+
+   `uvm_object_utils_begin(wr_tx)
+    `uvm_field_int(wr_en_i,UVM_ALL_ON)
+    `uvm_field_int(wdata_i,UVM_ALL_ON)
+    `uvm_field_int(full_o,UVM_ALL_ON)
+    `uvm_field_int(overflow_o,UVM_ALL_ON)
+    `uvm_object_utils_end
+
+`NEW_OBJ
+
+constraint wr_rd{
+                  wr_en_i== 1;
+                }
+
+endclass

@@ -1,0 +1,23 @@
+var g_sourceLines = [
+'class rd_tx extends uvm_sequence_item;   ',
+'rand		bit                      rd_en_i;',
+'				bit [`DATA_WIDTH-1:0]    rdata_o;',
+'				bit                      empty_o;',
+'				bit                      underflow_o;',
+'',
+'   `uvm_object_utils_begin(rd_tx)',
+'    `uvm_field_int(rd_en_i,UVM_ALL_ON)',
+'    `uvm_field_int(rdata_o,UVM_ALL_ON)',
+'    `uvm_field_int(empty_o,UVM_ALL_ON)',
+'    `uvm_field_int(underflow_o,UVM_ALL_ON)',
+'    `uvm_object_utils_end',
+'',
+'`NEW_OBJ',
+'',
+'constraint wr_rd{',
+'                  rd_en_i== 1;',
+'                }',
+'endclass',
+''
+];
+countinueBuildStmtTable(g_sourceLines);
